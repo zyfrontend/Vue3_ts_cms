@@ -13,7 +13,7 @@ const app = createApp(App)
 // 注册组件
 app.use(globalRegister)
 // 注册路由
+setUpStore()
 app.use(router)
 app.use(store)
-setUpStore()
 app.mount('#app')

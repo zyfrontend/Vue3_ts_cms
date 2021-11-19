@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
 import localCache from '@/utils/cache'
+import { firstMenu } from '@/utils/map-routes'
 const routes: RouteRecordRaw[] = [
   { path: '/', redirect: '/login' },
   {
@@ -31,6 +32,11 @@ router.beforeEach((to) => {
     if (!token) {
       return '/login'
     }
+  }
+  // 刷新无法正确跳转路由
+  // console.log(to)
+  if (to.path === '/main') {
+    return firstMenu.url
   }
 })
 export default router

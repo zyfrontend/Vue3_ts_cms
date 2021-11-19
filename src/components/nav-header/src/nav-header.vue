@@ -7,7 +7,7 @@
     ></i>
     <div class="header-content">
       <div>
-        <router-breadcumb></router-breadcumb>
+        <zy-breadcrumb :breadcrumbs="breadcrumbs"></zy-breadcrumb>
       </div>
       <div>
         <user-info></user-info>
@@ -17,14 +17,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
+import { useRoute } from 'vue-router'
+import { useStore } from '@/store'
+import { mapPathBreadcrumbs } from '@/utils/map-routes'
 // 组件
 import UserInfo from './user-info.vue'
-import RouterBreadcumb from './router-breadcrumb.vue'
+import ZyBreadcrumb, { breadcrumbType } from '@/UI/breadcrumb'
 export default defineComponent({
   components: {
     UserInfo,
-    RouterBreadcumb
+    ZyBreadcrumb
   },
   emits: ['foldChange'],
   setup(props, { emit }) {
@@ -33,8 +36,18 @@ export default defineComponent({
       isFold.value = !isFold.value
       emit('foldChange', isFold.value)
     }
+    // 面包屑数据
+    const store = useStore()
+    const breadcrumbs = computed(() => {
+      const userMenus = store.state.login.userMenus
+      const route = useRoute()
+      const currentPath = route.path
+
+      return mapPathBreadcrumbs(userMenus, currentPath)
+    })
     return {
       isFold,
+      breadcrumbs,
       handleFoldClick
     }
   }

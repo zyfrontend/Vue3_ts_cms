@@ -5,7 +5,7 @@
       <span v-show="!collapse" class="title">admin</span>
     </div>
     <el-menu
-      default-active="2"
+      :default-active="defaultValue"
       class="el-menu-vertical-demo"
       :unique-opened="false"
       :collapse="collapse"
@@ -45,9 +45,11 @@
 
 <script lang="ts">
 // 第三方
-import { defineComponent, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { defineComponent, computed, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+// 业务工具
 import { useStore } from '@/store'
+import { mapMenuPath } from '@/utils/map-routes'
 // 业务组件
 export default defineComponent({
   props: {
@@ -57,19 +59,24 @@ export default defineComponent({
     }
   },
   setup() {
-    // 路由获取
+    // 路由
     const router = useRouter()
+    const route = useRoute()
+    const currentPath = route.path
     // vuex 数据获取
     const store = useStore()
     const userMenus = computed(() => store.state.login.userMenus)
 
+    // data
+    const menu = mapMenuPath(userMenus.value, currentPath)
+    const defaultValue = ref(menu.id + '')
     // 路由跳转
     const handleMenuItemClick = (item: any) => {
       router.push({
         path: item.url ?? '/nfound'
       })
     }
-    return { userMenus, handleMenuItemClick }
+    return { userMenus, handleMenuItemClick, defaultValue }
   }
 })
 </script>
