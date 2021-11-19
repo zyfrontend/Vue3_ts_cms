@@ -23,10 +23,21 @@ import {
   ElDropdown,
   ElDropdownItem,
   ElBreadcrumbItem,
-  ElDropdownMenu
+  ElDropdownMenu,
+  ElAvatar,
+  ElRow,
+  ElCol,
+  ElSelect,
+  ElOption,
+  ElOptionGroup,
+  ElDatePicker
 } from 'element-plus'
 import { UserFilled, PhoneFilled, Calendar } from '@element-plus/icons'
 const components = [
+  ElSelect,
+  ElRow,
+  ElCol,
+  ElAvatar,
   ElButton,
   ElForm,
   ElFormItem,
@@ -50,6 +61,9 @@ const components = [
   ElDropdown,
   ElDropdownItem,
   ElDropdownMenu,
+  ElOption,
+  ElOptionGroup,
+  ElDatePicker,
   UserFilled,
   Calendar,
   PhoneFilled

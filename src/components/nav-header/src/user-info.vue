@@ -2,10 +2,11 @@
   <div class="user-info">
     <el-dropdown>
       <span class="el-dropdown-link">
-        Dropdown List
-        <el-icon class="el-icon--right">
-          <arrow-down />
-        </el-icon>
+        <el-avatar
+          size="small"
+          src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
+        ></el-avatar>
+        {{ name }}
       </span>
       <template #dropdown>
         <el-dropdown-menu>
@@ -28,15 +29,23 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
+import { useStore } from 'vuex'
 export default defineComponent({
   setup() {
-    return {}
+    const store = useStore()
+    const name = computed(() => store.state.login.userInfo.name)
+    return { name }
   }
 })
 </script>
 
 <style lang="less" scoped>
 .user-info {
+  .el-dropdown-link {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
 }
 </style>

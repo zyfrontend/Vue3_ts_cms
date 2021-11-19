@@ -9,7 +9,7 @@
           <nav-header @foldChange="foldChange"></nav-header>
         </el-header>
         <el-main class="page-content">
-          <router-view></router-view>
+          <router-view class="page-view"></router-view>
         </el-main>
       </el-container>
     </el-container>
@@ -56,7 +56,9 @@ export default defineComponent({
 .page {
   height: 100%;
 }
-
+.page-view {
+  background: white;
+}
 .page-content {
   height: calc(100% - 48px);
 }
