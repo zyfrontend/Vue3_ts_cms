@@ -1,5 +1,8 @@
 <template>
   <div class="zy-form">
+    <div class="header">
+      <slot name="header"></slot>
+    </div>
     <el-form :label-width="labelWidth">
       <el-row>
         <template v-for="item in formItems" :key="item.label">
@@ -20,18 +23,25 @@
                 <el-input
                   :placeholder="item.placeholder"
                   :show-password="item.type === 'password'"
+                  :model-value="modelValue[`${item.field}`]"
+                  @update:modelValue="handleValueChange($event, item.field)"
                 ></el-input>
               </template>
               <!-- 下拉菜单选项 -->
               <template v-else-if="item.type === 'select'">
-                <el-select style="width: 100%" :placeholder="item.placeholder">
+                <el-select
+                  :placeholder="item.placeholder"
+                  v-bind="item.otherOptions"
+                  style="width: 100%"
+                  :model-value="modelValue[`${item.field}`]"
+                  @update:modelValue="handleValueChange($event, item.field)"
+                >
                   <el-option
                     v-for="option in item.options"
-                    :key="option.title"
+                    :key="option.value"
                     :value="option.value"
+                    >{{ option.title }}</el-option
                   >
-                    {{ option.title }}
-                  </el-option>
                 </el-select>
               </template>
               <!-- 时间选项-->
@@ -39,6 +49,8 @@
                 <el-date-picker
                   style="width: 100%"
                   v-bind="item.otherOptions"
+                  :model-value="modelValue[`${item.field}`]"
+                  @update:modelValue="handleValueChange($event, item.field)"
                 ></el-date-picker>
               </template>
             </el-form-item>
@@ -46,6 +58,9 @@
         </template>
       </el-row>
     </el-form>
+    <div class="footer">
+      <slot name="footer"></slot>
+    </div>
   </div>
 </template>
 
@@ -54,6 +69,10 @@ import { defineComponent, PropType } from 'vue'
 import { IFormItem } from '../Types'
 export default defineComponent({
   props: {
+    modelValue: {
+      type: Object,
+      required: true
+    },
     formItems: {
       type: Array as PropType<IFormItem[]>,
       default: () => []
@@ -77,8 +96,13 @@ export default defineComponent({
       })
     }
   },
-  setup() {
-    return {}
+  setup(props, { emit }) {
+    const handleValueChange = (value: any, field: string) => {
+      emit('update:modelValue', { ...props.modelValue, [field]: value })
+    }
+    return {
+      handleValueChange
+    }
   }
 })
 </script>

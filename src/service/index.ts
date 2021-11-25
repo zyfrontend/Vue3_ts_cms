@@ -11,7 +11,7 @@ const httpRequest = new request({
       if (token) {
         config.headers.Authorization = `Bearer ${token}`
       }
-      console.log('请求成功拦截')
+      // console.log('请求成功拦截')
       return config
     },
     requestInterceptorCatch: (err) => {
@@ -19,7 +19,7 @@ const httpRequest = new request({
       return err
     },
     responseInterceptor: (config) => {
-      console.log('响应成功拦截')
+      // console.log('响应成功拦截')
       return config
     },
     responseInterceptorCatch: (err) => {

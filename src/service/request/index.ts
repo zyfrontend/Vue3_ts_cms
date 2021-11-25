@@ -62,7 +62,7 @@ class request {
     )
   }
   //请求测试
-  httpRequest<T>(config: RequestConfig<T>): Promise<T> {
+  httpRequest<T = any>(config: RequestConfig<T>): Promise<T> {
     return new Promise((resolve, reject) => {
       if (config.interceptors?.requestInterceptor) {
         config = config.interceptors.requestInterceptor(config)
@@ -88,16 +88,16 @@ class request {
         })
     })
   }
-  get<T>(config: RequestConfig<T>): Promise<T> {
+  get<T = any>(config: RequestConfig<T>): Promise<T> {
     return this.httpRequest<T>({ ...config, method: 'GET' })
   }
-  post<T>(config: RequestConfig<T>): Promise<T> {
+  post<T = any>(config: RequestConfig<T>): Promise<T> {
     return this.httpRequest<T>({ ...config, method: 'POST' })
   }
-  DELETE<T>(config: RequestConfig<T>): Promise<T> {
+  DELETE<T = any>(config: RequestConfig<T>): Promise<T> {
     return this.httpRequest<T>({ ...config, method: 'DELETE' })
   }
-  patch<T>(config: RequestConfig<T>): Promise<T> {
+  patch<T = any>(config: RequestConfig<T>): Promise<T> {
     return this.httpRequest<T>({ ...config, method: 'PATCH' })
   }
 }

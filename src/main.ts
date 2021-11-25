@@ -7,9 +7,11 @@ import { setUpStore } from './store'
 // css
 import 'normalize.css'
 import '@/assets/css/index.less'
+
 // component
 import App from './App.vue'
 const app = createApp(App)
+
 // 注册组件
 app.use(globalRegister)
 // 注册路由

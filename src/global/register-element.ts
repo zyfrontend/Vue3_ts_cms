@@ -30,7 +30,11 @@ import {
   ElSelect,
   ElOption,
   ElOptionGroup,
-  ElDatePicker
+  ElDatePicker,
+  ElTable,
+  ElTableColumn,
+  ElImage,
+  ElPagination
 } from 'element-plus'
 import { UserFilled, PhoneFilled, Calendar } from '@element-plus/icons'
 const components = [
@@ -64,6 +68,10 @@ const components = [
   ElOption,
   ElOptionGroup,
   ElDatePicker,
+  ElTable,
+  ElTableColumn,
+  ElPagination,
+  ElImage,
   UserFilled,
   Calendar,
   PhoneFilled
