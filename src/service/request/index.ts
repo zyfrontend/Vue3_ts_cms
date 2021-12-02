@@ -94,7 +94,7 @@ class request {
   post<T = any>(config: RequestConfig<T>): Promise<T> {
     return this.httpRequest<T>({ ...config, method: 'POST' })
   }
-  DELETE<T = any>(config: RequestConfig<T>): Promise<T> {
+  delete<T = any>(config: RequestConfig<T>): Promise<T> {
     return this.httpRequest<T>({ ...config, method: 'DELETE' })
   }
   patch<T = any>(config: RequestConfig<T>): Promise<T> {

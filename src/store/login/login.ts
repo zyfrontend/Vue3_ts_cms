@@ -43,13 +43,15 @@ const loginModule: Module<ILoginState, IRootState> = {
   },
   actions: {
     // 登录逻辑
-    async accountLoginAction({ commit }, payload: IAccount) {
+    async accountLoginAction({ commit, dispatch }, payload: IAccount) {
       const loginResult = await accuntLoginRequest(payload)
       const { id, token } = loginResult.data
       // vuex 发送保存token
       commit('changeToken', token)
       // localStorage 保存token
       localCache.setCache('token', token)
+      // 发出初始化请求
+      dispatch('getInitialDataAction', null, { root: true })
       // 获取信息
       const userInfoResult = await requestUserInfoById(id)
       const userInfo = userInfoResult.data
@@ -69,10 +71,12 @@ const loginModule: Module<ILoginState, IRootState> = {
       // 路由跳转
       router.push('/main')
     },
-    loadLocalLogin({ commit }) {
+    loadLocalLogin({ commit, dispatch }) {
       const token = localCache.getCache('token')
       if (token) {
         commit('changeToken', token)
+
+        dispatch('getInitialDataAction', null, { root: true })
       }
       const userInfo = localCache.getCache('userInfo')
       if (userInfo) {

@@ -34,7 +34,10 @@ import {
   ElTable,
   ElTableColumn,
   ElImage,
-  ElPagination
+  ElDialog,
+  ElPagination,
+  ElTree,
+  ElCard
 } from 'element-plus'
 import { UserFilled, PhoneFilled, Calendar } from '@element-plus/icons'
 const components = [
@@ -50,6 +53,7 @@ const components = [
   ElTabs,
   ElTabPane,
   ElIcon,
+  ElDialog,
   ElCheckbox,
   ElLink,
   ElAside,
@@ -72,6 +76,8 @@ const components = [
   ElTableColumn,
   ElPagination,
   ElImage,
+  ElTree,
+  ElCard,
   UserFilled,
   Calendar,
   PhoneFilled

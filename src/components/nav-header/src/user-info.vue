@@ -18,7 +18,7 @@
             <i class="el-icon-user"></i>
             用户信息
           </el-dropdown-item>
-          <el-dropdown-item divided>
+          <el-dropdown-item divided @click="handleExitClick">
             <i class="el-icon-circle-close"></i>
             退出登录</el-dropdown-item
           >
@@ -31,11 +31,18 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+import localCache from '@/utils/cache'
 export default defineComponent({
   setup() {
     const store = useStore()
+    const router = useRouter()
     const name = computed(() => store.state.login.userInfo.name)
-    return { name }
+    const handleExitClick = () => {
+      localCache.deleteCache('token')
+      router.push('/main')
+    }
+    return { name, handleExitClick }
   }
 })
 </script>

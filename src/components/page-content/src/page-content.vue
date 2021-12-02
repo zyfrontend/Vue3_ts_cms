@@ -9,7 +9,9 @@
       v-model:page="pageInfo"
     >
       <template #headerHandle>
-        <el-button v-if="isCreate" type="primary">新增</el-button>
+        <el-button v-if="isCreate" type="primary" @click="handleNewClick">
+          新增
+        </el-button>
       </template>
       <!-- 2.列中的插槽 -->
       <template #status="scope">
@@ -28,9 +30,15 @@
         <span>{{ $filters.formatTime(scope.row.updateAt) }}</span>
       </template>
       <template #handle="scope">
-        <el-button v-if="isUpdate" icon="el-icon-edit" size="mini" type="text"
-          >编辑</el-button
+        <el-button
+          v-if="isUpdate"
+          icon="el-icon-edit"
+          size="mini"
+          type="text"
+          @click="handleEditClick(scope.row)"
         >
+          编辑
+        </el-button>
         <el-button
           icon="el-icon-edit"
           v-if="isDelete"
@@ -75,7 +83,8 @@ export default defineComponent({
   components: {
     ZyTable
   },
-  setup(props) {
+  emits: ['newBtnClick', 'editBtnClick'],
+  setup(props, { emit }) {
     const store = useStore()
     // 获取操作权限
     const isCreate = usePermissions(props.pageName, 'create')
@@ -121,8 +130,19 @@ export default defineComponent({
       }
     )
     // 删除操作
-    const handleDeleteClick = (data: any) => {
-      console.log(data)
+    const handleDeleteClick = (item: any) => {
+      store.dispatch('system/deletePageDataAction', {
+        pageName: props.pageName,
+        id: item.id
+      })
+    }
+    // 新增
+    const handleNewClick = () => {
+      emit('newBtnClick')
+    }
+    // 编辑
+    const handleEditClick = (item: any) => {
+      emit('editBtnClick', item)
     }
     return {
       dataList,
@@ -134,7 +154,9 @@ export default defineComponent({
       isCreate,
       isUpdate,
       isDelete,
-      handleDeleteClick
+      handleDeleteClick,
+      handleNewClick,
+      handleEditClick
     }
   }
 })
