@@ -7,7 +7,7 @@
 <script setup lang="ts">
 import { computed, defineProps, withDefaults } from 'vue'
 import ZyEchart from '@/UI/echart'
-import { IDataType } from '../types'
+// import { IDataType } from '../types'
 const props = withDefaults(
   defineProps<{
     title?: string

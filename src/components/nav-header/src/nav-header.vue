@@ -23,7 +23,7 @@ import { useStore } from '@/store'
 import { mapPathBreadcrumbs } from '@/utils/map-routes'
 // 组件
 import UserInfo from './user-info.vue'
-import ZyBreadcrumb, { breadcrumbType } from '@/UI/breadcrumb'
+import ZyBreadcrumb from '@/UI/breadcrumb'
 export default defineComponent({
   components: {
     UserInfo,

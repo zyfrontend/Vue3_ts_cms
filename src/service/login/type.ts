@@ -8,5 +8,3 @@ export interface ILoginResult {
   name: string
   token: string
 }
-
-export interface IUserInfo {}
