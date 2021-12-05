@@ -22,8 +22,8 @@ export default defineComponent({
     const formRef = ref<InstanceType<typeof ElForm>>()
     const store = useStore()
     const account = reactive({
-      name: localCache.getCache('name') ?? '',
-      password: localCache.getCache('password') ?? ''
+      name: localCache.getCache('name') ?? 'coderwhy',
+      password: localCache.getCache('password') ?? '123456'
     })
     // 校验规则
     const rules = {
