@@ -1,3 +1,29 @@
-# Vue3-TypeScript-CMS
+# vue3-ts-cms
 
-![](https://zyfullstack-images.oss-cn-shanghai.aliyuncs.com/img/20211205193945.png)
+## Project setup
+
+```
+yarn install
+```
+
+### Compiles and hot-reloads for development
+
+```
+yarn serve
+```
+
+### Compiles and minifies for production
+
+```
+yarn build
+```
+
+### Lints and fixes files
+
+```
+yarn lint
+```
+
+### Customize configuration
+
+See [Configuration Reference](https://cli.vuejs.org/config/).

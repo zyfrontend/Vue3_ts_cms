@@ -1,18 +1,13 @@
 <template>
-  <div class="overview">
-    <h2>overview</h2>
+  <div>
+    <h1>overview</h1>
   </div>
 </template>
-
 <script lang="ts">
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'overview',
-  setup() {
-    return {}
-  }
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: 'overview'
 })
 </script>
-
-<style scoped></style>

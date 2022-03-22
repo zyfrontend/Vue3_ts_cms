@@ -1,11 +1,9 @@
 import { createStore, Store, useStore as useVuexStore } from 'vuex'
-import { IRootState, IStoreType } from './type'
-
-import { getPageList } from '@/service/main/main'
-// modules
-import login from './login/login'
-import system from './main/system/system'
-import dashboard from './main/dashboard/dashboard'
+import { IRootState, IStoreType } from './types'
+import login from '@/store/module/login'
+import dashboard from '@/store/module/dashboard'
+import system from '@/store/module/system'
+import { getPageList } from '@/service/main'
 const store = createStore<IRootState>({
   state: () => {
     return {
@@ -16,6 +14,7 @@ const store = createStore<IRootState>({
       entireMenu: []
     }
   },
+  getters: {},
   mutations: {
     changeEntireDepartment(state, list) {
       state.entireDepartment = list
@@ -27,7 +26,6 @@ const store = createStore<IRootState>({
       state.entireMenu = list
     }
   },
-  getters: {},
   actions: {
     async getInitialDataAction({ commit }) {
       // 部门
@@ -54,10 +52,11 @@ const store = createStore<IRootState>({
   },
   modules: {
     login,
-    system,
-    dashboard
+    dashboard,
+    system
   }
 })
+
 // vuex 重新缓存
 export function setUpStore() {
   store.dispatch('login/loadLocalLogin')
@@ -67,4 +66,5 @@ export function setUpStore() {
 export function useStore(): Store<IStoreType> {
   return useVuexStore()
 }
+
 export default store

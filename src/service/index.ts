@@ -1,5 +1,5 @@
-import request from './request'
-import { BASE_URL, TIME_OUT } from './request/config'
+import { BASE_URL, TIME_OUT } from './config'
+import request from '@/utils/request'
 import localCache from '@/utils/cache'
 const httpRequest = new request({
   baseURL: BASE_URL,
