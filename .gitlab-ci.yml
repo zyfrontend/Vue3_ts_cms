@@ -28,7 +28,7 @@ build:
   tags:
     - running
   script:
-    - yarn build
+    - npm run build
   # 将此阶段产物传递至下一阶段
   artifacts:
     paths:
