@@ -38,7 +38,7 @@ build:
 deploy:
   stage: deploy
   tags:
-    - deploy
+    - running
   script:
     # 清空网站根目录，目录请根据服务器实际情况填写
     - rm -rf /opt/www/admin/*
