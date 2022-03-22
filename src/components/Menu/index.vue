@@ -117,7 +117,7 @@ const handleMenuItemClick = (item: any) => {
     }
   }
 
-  ::v-deep .el-submenu__title {
+  :deep .el-submenu__title {
     background-color: #001529 !important;
   }
 
