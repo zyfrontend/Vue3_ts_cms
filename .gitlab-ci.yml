@@ -13,7 +13,7 @@ install:
   stage: install
   # 此处的tags必须填入之前注册时自定的tag
   tags:
-    - deploy
+    - running
   # 规定仅在package.json提交时才触发此阶段
   only:
     changes:
