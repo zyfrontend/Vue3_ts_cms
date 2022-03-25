@@ -1,33 +1,32 @@
-import httpRequest from '@/service'
-import { IAccount, ILoginResult } from './types'
-import { IDataType } from '../types'
+import { msiRequest } from "../index";
 
-enum LoginApi {
-  AccountLogin = '/login',
-  LoginUserInfo = '/users/', // 用法: /users/1
-  UserMenus = '/role/' // 用法: role/1/menu
+import { ResultType } from "../types";
+import { AccountLoginType, AccountLoginResultType } from "./types";
+
+enum AccountLoginAPI {
+  ACCOUNT_LOGIN = "/login",
+  USER_INFO = "/users/",
+  USER_MENU = "role/"
 }
 
-// 登录请求
-export function accuntLoginRequest(account: IAccount) {
-  return httpRequest.post<IDataType<ILoginResult>>({
-    url: LoginApi.AccountLogin,
-    data: account
-  })
+export function accountLoginRequest(account: AccountLoginType) {
+  return msiRequest.post<ResultType<AccountLoginResultType>>({
+    url: AccountLoginAPI.ACCOUNT_LOGIN,
+    data: {
+      ...account,
+      name: "coderwhy"
+    }
+  });
 }
 
-// 获取信息
-export function requestUserInfoById(id: number) {
-  return httpRequest.get<IDataType>({
-    url: LoginApi.LoginUserInfo + id,
-    showLoading: false
-  })
+export function userInfoRequest(id: number) {
+  return msiRequest.get<ResultType>({
+    url: AccountLoginAPI.USER_INFO + id
+  });
 }
 
-// 获取菜单树
-export function requestUserMenusByRoleId(id: number) {
-  return httpRequest.get<IDataType>({
-    url: LoginApi.UserMenus + id + '/menu',
-    showLoading: false
-  })
+export function userMenuRequest(id: number) {
+  return msiRequest.get<ResultType>({
+    url: AccountLoginAPI.USER_MENU + id + "/menu"
+  });
 }

@@ -1,70 +1,77 @@
-import { createStore, Store, useStore as useVuexStore } from 'vuex'
-import { IRootState, IStoreType } from './types'
-import login from '@/store/module/login'
-import dashboard from '@/store/module/dashboard'
-import system from '@/store/module/system'
-import { getPageList } from '@/service/main'
-const store = createStore<IRootState>({
-  state: () => {
+import { createStore, useStore as useVuexStore, Store } from "vuex";
+
+import { RootStateType, RootWithModule } from "./types";
+import loginModule from "./login";
+import systemModule from "./system";
+import productModule from "./product";
+import analysisModule from "./analysis";
+
+import { getDataList } from "@/service/main/system";
+const store = createStore<RootStateType>({
+  state() {
     return {
-      name: 'zy',
-      age: 11,
-      entireDepartment: [],
-      entireRole: [],
-      entireMenu: []
-    }
+      departmentList: [],
+      departmentCount: 0,
+      roleList: [],
+      roleCount: 0,
+      menuList: []
+    };
   },
   getters: {},
   mutations: {
-    changeEntireDepartment(state, list) {
-      state.entireDepartment = list
+    changeDepartmentList(state, payload: any[]) {
+      state.departmentList = payload;
     },
-    changeEntireRole(state, list) {
-      state.entireRole = list
+    changeDepartmentCount(state, payload: number) {
+      state.departmentCount = payload;
     },
-    changeEntireMenu(state, list) {
-      state.entireMenu = list
+    changeRoleList(state, payload: any[]) {
+      state.roleList = payload;
+    },
+    changeRoleCount(state, payload: number) {
+      state.roleCount = payload;
+    },
+    changeMenuList(state, payload: any[]) {
+      state.menuList = payload;
     }
   },
   actions: {
-    async getInitialDataAction({ commit }) {
-      // 部门
-      const departmentResult = await getPageList('/department/list', {
+    async getInitDataAction({ commit }) {
+      const departmentResult = await getDataList("/department/list", {
         offset: 0,
-        size: 1000
-      })
-      const { list: departmentList } = departmentResult.data
-      // 角色
-      const roleResult = await getPageList('/role/list', {
-        offset: 0,
-        size: 1000
-      })
-      const { list: roleList } = roleResult.data
+        size: 120
+      });
+      const { list: departmentList, totalCount: departmentCount } =
+        departmentResult.data;
+      commit("changeDepartmentList", departmentList);
+      commit("changeDepartmentCount", departmentCount);
 
-      // 权限菜单
-      const menuResult = await getPageList('/menu/list', {})
-      const { list: menuList } = menuResult.data
-      // 保存数据
-      commit('changeEntireDepartment', departmentList)
-      commit('changeEntireRole', roleList)
-      commit('changeEntireMenu', menuList)
+      const roleResult = await getDataList("/role/list", {
+        offset: 0,
+        size: 120
+      });
+      const { list: roleList, totalCount: roleCount } = roleResult.data;
+      commit("changeRoleList", roleList);
+      commit("changeRoleCount", roleCount);
+
+      const menuResult = await getDataList("/menu/list");
+      const { list: menuList } = menuResult.data;
+      commit("changeMenuList", menuList);
     }
   },
   modules: {
-    login,
-    dashboard,
-    system
+    login: loginModule,
+    system: systemModule,
+    product: productModule,
+    analysis: analysisModule
   }
-})
+});
 
-// vuex 重新缓存
-export function setUpStore() {
-  store.dispatch('login/loadLocalLogin')
-  store.dispatch('getInitialDataAction')
+export function uploadCache() {
+  store.dispatch("login/uploadAction");
+}
+export function useStore(): Store<RootWithModule> {
+  return useVuexStore();
 }
 
-export function useStore(): Store<IStoreType> {
-  return useVuexStore()
-}
-
-export default store
+export default store;

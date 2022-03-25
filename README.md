@@ -1,29 +1,45 @@
-# vue3-ts-cms
+## 基于 Vue3+TypeScript 的后台管理系统
 
-## Project setup
+> ### 1.线上体验
 
-```
-yarn install
-```
+[Vue3+TS 后台管理系统在线体验](http://admin.zyfullstack.top)
 
-### Compiles and hot-reloads for development
+**客官如果觉得还不戳，github 上不妨顺手点个 :star:，鼓励一下吧。**
 
-```
-yarn serve
-```
+> ### 2.项目运行
 
-### Compiles and minifies for production
+- git clone 到本地
+- cd 到 vue3_ts_cms 目录下运行：
 
 ```
-yarn build
+npm install 或者 cnpm install
 ```
 
-### Lints and fixes files
+- 运行
 
 ```
-yarn lint
+npm run serve
 ```
 
-### Customize configuration
+- 浏览器打开 http://localost:8080/
 
-See [Configuration Reference](https://cli.vuejs.org/config/).
+> ### 3.项目功能（部分展示）
+
+#### 3.1 登陆页面 （默认用户&密码：admin，123456）
+
+
+
+#### 3.2 页面展示 （侧边菜单 - 技术栈展示）
+
+
+#### 3.3 系统管理（搜索联动）
+
+
+#### 3.4 商品数据展示（可视化页面）
+
+
+> ### 4.项目提交
+
+```
+npm run commit
+```

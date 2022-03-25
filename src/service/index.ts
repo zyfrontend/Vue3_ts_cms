@@ -1,31 +1,29 @@
-import { BASE_URL, TIME_OUT } from './config'
-import request from '@/utils/request'
-import localCache from '@/utils/cache'
-const httpRequest = new request({
-  baseURL: BASE_URL,
-  timeout: TIME_OUT,
+import MsiRequest from "./request";
+
+import localCache from "@/utils/cache";
+
+const msiRequest = new MsiRequest({
+  baseURL: process.env.VUE_APP_BASE_URL,
+  timeout: Number(process.env.VUE_APP_TIME_OUT),
   interceptors: {
-    requestInterceptor: (config: any) => {
-      //携带同肯拦截
-      const token = localCache.getCache('token')
+    requestInterceptor(config) {
+      const token = localCache.getCache("token");
       if (token) {
-        config.headers.Authorization = `Bearer ${token}`
+        config.headers.Authorization = `Bearer ${token}`;
       }
-      // console.log('请求成功拦截')
-      return config
+      return config;
     },
-    requestInterceptorCatch: (err) => {
-      console.log('请求失败拦截')
-      return err
+    requestInterceptorCatch(error) {
+      return error;
     },
-    responseInterceptor: (config) => {
-      // console.log('响应成功拦截')
-      return config
+    responseInterceptor(result) {
+      return result;
     },
-    responseInterceptorCatch: (err) => {
-      console.log('响应失败拦截')
-      return err
+    responseInterceptorCatch(error) {
+      return error;
     }
   }
-})
-export default httpRequest
+});
+console.log(process.env.VUE_APP_BASE_URL);
+
+export { msiRequest };

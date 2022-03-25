@@ -1,42 +1,41 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
-import type { RouteRecordRaw } from 'vue-router'
-import localCache from '@/utils/cache'
-import { firstMenu } from '@/utils/mapRoutes'
+import { createRouter, createWebHashHistory } from "vue-router";
+import type { RouteRecordRaw } from "vue-router";
+import localCache from "@/utils/cache";
+
+import { firstMenu } from "@/utils/menuToRoute";
+
 const routes: RouteRecordRaw[] = [
   {
-    path: '/login',
-    name: 'login',
-    component: () => import('@/views/Login/index.vue')
+    path: "/",
+    redirect: "/login"
   },
   {
-    path: '/main',
-    name: 'main',
-    component: () => import('@/views/Layout.vue')
+    path: "/main",
+    name: "main",
+    component: () => import("@/views/main/Main.vue")
   },
   {
-    path: '/:pathMatch(.*)*',
-    name: 'noFound',
-    component: () => import('@/views/notFound/noFound.vue')
+    path: "/login",
+    component: () => import("@/views/login/Login.vue")
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    component: () => import("@/views/not-found/NotFound.vue")
   }
-]
+];
 
 const router = createRouter({
-  history: createWebHashHistory(),
-  routes
-})
-
-router.beforeEach((to) => {
-  if (to.path !== '/login') {
-    const token = localCache.getCache('token')
-    if (!token) {
-      return '/login'
+  routes,
+  history: createWebHashHistory()
+});
+router.beforeEach((to, from) => {
+  if (to.path !== "/login") {
+    if (!localCache.getCache("token")) {
+      return "/login";
     }
   }
-  // 刷新无法正确跳转路由
-  // console.log(to)
-  if (to.path === '/main') {
-    return firstMenu.url
+  if (to.path === "/main") {
+    return firstMenu.url;
   }
-})
-
-export default router
+});
+export default router;

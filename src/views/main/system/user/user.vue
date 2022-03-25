@@ -1,74 +1,127 @@
 <template>
   <div class="user">
-    <el-card>
-      <Search
-        :searchFormConfig="searchFormConfig"
-        @resetBtnClick="handleResetClick"
-        @queryBtnClick="handleQueryClick"
-      ></Search>
-    </el-card>
-    <el-card>
-      <Content
-        ref="pageContentRef"
-        :contentTableConfig="contentTableConfig"
+    <page-search
+      :formConfig="formConfigList"
+      @searchKeyValue="searchBtnClic"
+      @searchReset="resetBtnClic"
+    ></page-search>
+    <div class="user-tabel">
+      <page-tabel
+        :tabelConfig="tableConfigList"
         pageName="users"
-        @newBtnClick="handleNewData"
-        @editBtnClick="handleEditData"
+        ref="pageTabelRef"
+        @editorBtnClic="handleEditorBtnClic"
+        @createBtnClic="handleCreateBtnClic"
       >
-      </Content>
-    </el-card>
-    <Modal
-      :defaultInfo="defaultInfo"
-      ref="pageModalRef"
+        <template v-slot:status="scope">
+          <el-button
+            :type="scope.row.status === 2 ? 'danger' : 'success'"
+            size="small"
+            plain
+            >{{ scope.row.enabel === 2 ? "启用" : "停用" }}</el-button
+          >
+        </template>
+      </page-tabel>
+    </div>
+    <page-dialog
+      ref="pageDialogRef"
       pageName="users"
-      :modalConfig="ModalConfigRef"
-    ></Modal>
+      :pageDialogConfig="dialogConfigRef"
+      :defaultValue="defaultValue"
+    >
+    </page-dialog>
   </div>
 </template>
-<script lang="ts" setup>
-import { computed } from 'vue'
-import { useStore } from '@/store'
-import Search from '@/components/Search/index.vue'
-import Content from '@/components/Content/index.vue'
-import Modal from '@/components/Modal/index.vue'
-import { searchFormConfig } from './config/search.config'
-import { contentTableConfig } from './config/content.config'
-import { modalConfig } from './config/modal.config'
-import { usePageSearch } from '@/Hooks/usePageSearch'
-import { usePageModal } from '@/Hooks/usePageModal'
 
-const [pageContentRef, handleResetClick, handleQueryClick] = usePageSearch()
-// 新增组件渲染密码框
-const newCallback = () => {
-  const passwordItem = modalConfig.formItems.find(
-    (item) => item.field === 'password'
-  )
-  passwordItem!.isHidden = false
-}
-// 编辑组件不渲染密码框
-const editCallback = () => {
-  const passwordItem = modalConfig.formItems.find(
-    (item) => item.field === 'password'
-  )
-  passwordItem!.isHidden = true
-}
-const [pageModalRef, defaultInfo, handleNewData, handleEditData] = usePageModal(
-  newCallback,
-  editCallback
-)
-// 动态添加部门,角色
-const store = useStore()
-const ModalConfigRef = computed(() => {
-  const departmentItem = modalConfig.formItems.find(
-    (item) => item.field === 'departmentId'
-  )
-  departmentItem!.options = store.state.entireDepartment.map((item: any) => {
-    return { title: item.name, value: item.id }
-  })
-  const roleItem = modalConfig.formItems.find((item) => item.field === 'roleId')
-  roleItem!.options = store.state.entireRole.map((item: any) => {
-    return { title: item.name, value: item.id }
-  })
-  return modalConfig
-})
+<script lang="ts">
+import { defineComponent, computed } from "vue";
+import { useStore } from "@/store";
+
+import PageSearch from "@/components/page-search";
+import PageTabel from "@/components/page-tabel";
+import PageDialog from "@/components/page-dialog";
+
+import formConfigList from "./configs/form.config";
+import tableConfigList from "./configs/tabel.config";
+import dialogConfig from "./configs/dialog.config";
+
+import { searchLinkage, operationLinkage } from "@/hooks/pageLinkage";
+export default defineComponent({
+  name: "user",
+  components: {
+    PageSearch,
+    PageTabel,
+    PageDialog
+  },
+  setup() {
+    const store = useStore();
+    // 搜索联动
+    const [pageTabelRef, resetBtnClic, searchBtnClic] = searchLinkage();
+    // 操作联动
+    const formItem = dialogConfig.formItem.find((item) => {
+      return item.field === "password";
+    });
+    const editorCallback = () => {
+      formItem!.isHidden = true;
+    };
+    const createCallback = () => {
+      formItem!.isHidden = false;
+    };
+    const [
+      pageDialogRef,
+      defaultValue,
+      handleEditorBtnClic,
+      handleCreateBtnClic
+    ] = operationLinkage(editorCallback, createCallback);
+    // 对配置文件进行操作
+
+    const dialogConfigRef = computed(() => {
+      const departmentItem = dialogConfig.formItem.find((item) => {
+        return item.field === "departmentId";
+      });
+      const departmentList = store.state.departmentList.map((item) => {
+        return {
+          title: item.name,
+          value: item.id
+        };
+      });
+      const roleItem = dialogConfig.formItem.find((item) => {
+        return item.field === "roleId";
+      });
+      const roleList = store.state.roleList.map((item) => {
+        return {
+          title: item.name,
+          value: item.id
+        };
+      });
+      departmentItem!.options = departmentList;
+      roleItem!.options = roleList;
+      return dialogConfig;
+    });
+
+    // 编辑 新建按钮的点击
+
+    return {
+      pageTabelRef,
+      formConfigList,
+      tableConfigList,
+      searchBtnClic,
+      resetBtnClic,
+      dialogConfigRef,
+      handleEditorBtnClic,
+      handleCreateBtnClic,
+      pageDialogRef,
+      defaultValue
+    };
+  }
+});
 </script>
+
+<style scoped lang="less">
+.main {
+  .user-tabel {
+    margin-top: 20px;
+    border-radius: 10px;
+  }
+}
+</style>

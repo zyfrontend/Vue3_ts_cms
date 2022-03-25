@@ -1,18 +1,20 @@
-import { ILoginState } from './module/login/types'
-import { IDashboardState } from './module/dashboard/types'
-import { ISystemState } from './module/system/types'
-export interface IRootState {
-  name?: string
-  age?: number
-  entireDepartment: any[]
-  entireRole: any[]
-  entireMenu: any[]
+import type { LoginStateType } from "./login/types";
+import type { SystemStateType } from "./system/types";
+import { ProductStateType } from "./product/types";
+import type { AnalysisStateType } from "./analysis/types";
+export interface RootStateType {
+  departmentList: any[];
+  departmentCount: number;
+  roleList: any[];
+  roleCount: number;
+  menuList: any[];
 }
 
-export interface IRootWithModule {
-  login: ILoginState
-  system: ISystemState
-  dashboard: IDashboardState
+interface ModuleType {
+  login: LoginStateType;
+  system: SystemStateType;
+  product: ProductStateType;
+  analysis: AnalysisStateType;
 }
 
-export type IStoreType = IRootState & IRootWithModule
+export type RootWithModule = RootStateType & ModuleType;
