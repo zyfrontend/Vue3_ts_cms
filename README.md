@@ -4,8 +4,6 @@
 
 [Vue3+TS 后台管理系统在线体验](http://admin.zyfullstack.top)
 
-**客官如果觉得还不戳，github 上不妨顺手点个 :star:，鼓励一下吧。**
-
 > ### 2.项目运行
 
 - git clone 到本地
@@ -26,17 +24,17 @@ npm run serve
 > ### 3.项目功能（部分展示）
 
 #### 3.1 登陆页面 （默认用户&密码：admin，123456）
-
+![](http://image.zyfullstack.top/Snipaste_2022-03-25_10-13-35.png)
 
 
 #### 3.2 页面展示 （侧边菜单 - 技术栈展示）
-
+![](http://image.zyfullstack.top/Snipaste_2022-03-25_10-14-01.png)
 
 #### 3.3 系统管理（搜索联动）
-
+![](http://image.zyfullstack.top/Snipaste_2022-03-25_10-14-25.png)
 
 #### 3.4 商品数据展示（可视化页面）
-
+![](http://image.zyfullstack.top/Snipaste_2022-03-25_10-14-25.png)
 
 > ### 4.项目提交
 
